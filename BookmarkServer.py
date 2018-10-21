@@ -48,7 +48,7 @@ from urllib.parse import unquote, parse_qs
 import threading
 from socketserver import ThreadingMixIn
 
-
+class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
 
 memory = {}
 
@@ -72,8 +72,7 @@ form = '''<!DOCTYPE html>
 '''
 
 
-class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
-    #"This is an HTTPServer that supports thread-based concurrency."
+def CheckURI(uri, timeout=5):
     '''Check whether this URI is reachable, i.e. does it return a 200 OK?
 
     This function returns True if a GET request to uri returns a 200 OK, and
