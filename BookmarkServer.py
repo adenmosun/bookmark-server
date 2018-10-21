@@ -48,7 +48,7 @@ from urllib.parse import unquote, parse_qs
 import threading
 from socketserver import ThreadingMixIn
 
-class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
+
 
 memory = {}
 
@@ -71,6 +71,7 @@ form = '''<!DOCTYPE html>
 </pre>
 '''
 
+class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
 
 def CheckURI(uri, timeout=5):
     '''Check whether this URI is reachable, i.e. does it return a 200 OK?
@@ -158,7 +159,7 @@ class Shortener(http.server.BaseHTTPRequestHandler):
                 "Couldn't fetch URI '{}'. Sorry!".format(longuri).encode())
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 8000))   # Use PORT if it's there.
     server_address = ('', port)
-    httpd = ThreadHTTPServer(server_address, Shortener)
+    httpd = http.server.HTTPServer(server_address, Shortener)
     httpd.serve_forever()
